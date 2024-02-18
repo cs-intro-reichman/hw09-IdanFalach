@@ -134,7 +134,7 @@ public class LanguageModel {
 
         String window = initialText.substring(initialText.length() - windowLength);
         String generatedText = window;
-        for (int i = 0; i < textLength - initialText.length(); i++) {
+        for (int i = 0; i < textLength; i++) {
             List probs = CharDataMap.get(window);
             if (probs != null) {
                 char newChar = getRandomChar(probs);
@@ -145,7 +145,6 @@ public class LanguageModel {
             }
         }
 
-        // Your code goes here
         return generatedText;
     }
 
