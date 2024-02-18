@@ -10,7 +10,7 @@ public class LanguageModel {
     // The window length used in this model.
     int windowLength;
 
-    // The random number generator used by this model. 
+    // The random number generator used by this model.
     private Random randomGenerator;
 
     /**
@@ -128,8 +128,25 @@ public class LanguageModel {
      * @return the generated text
      */
     public String generate(String initialText, int textLength) {
+        if (initialText.length() < windowLength) {
+            return initialText;
+        }
+
+        String window = initialText.substring(initialText.length() - windowLength);
+        String generatedText = window;
+        for (int i = 0; i < textLength - initialText.length(); i++) {
+            List probs = CharDataMap.get(window);
+            if (probs != null) {
+                char newChar = getRandomChar(probs);
+                generatedText += newChar;
+                window = generatedText.substring(generatedText.length() - windowLength);
+            } else {
+                return generatedText;
+            }
+        }
+
         // Your code goes here
-        return "";
+        return generatedText;
     }
 
     /**
